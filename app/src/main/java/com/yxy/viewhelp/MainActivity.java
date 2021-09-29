@@ -54,12 +54,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.view_text2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                LayoutBorderManager.getInstance().start(MainActivity.this);
-                LayoutLevelFloatPage layoutLevelFloatPage = new LayoutLevelFloatPage();
-                layoutLevelFloatPage.performCreate(MainActivity.this);
-                mWindowManager.addView(layoutLevelFloatPage.getRootView(),
-                        layoutLevelFloatPage.getLayoutParams());
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (!Settings.canDrawOverlays(MainActivity.this)) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + getPackageName()));
+                        startActivityForResult(intent, 10);
+                    } else {
+                        WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                        LayoutBorderManager.getInstance().start(MainActivity.this);
+                        LayoutLevelFloatPage layoutLevelFloatPage = new LayoutLevelFloatPage();
+                        layoutLevelFloatPage.performCreate(MainActivity.this);
+                        mWindowManager.addView(layoutLevelFloatPage.getRootView(),
+                                layoutLevelFloatPage.getLayoutParams());
+                    }
+                }
+
 
             }
         });
