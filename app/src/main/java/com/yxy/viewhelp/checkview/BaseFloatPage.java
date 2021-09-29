@@ -17,8 +17,8 @@ import androidx.annotation.IdRes;
 
 /**
  * 布局抽象类，主要是用来在屏幕上方新建view并且设置其参数
+ * 具体的实现功能的view继承自它
  */
-
 public abstract class BaseFloatPage {
 
     private View mRootView;
